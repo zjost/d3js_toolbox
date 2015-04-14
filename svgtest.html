@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="./d3/d3.js"></script>
+       
+    </head>
+    <body>
+        <script type="text/javascript">
+            // Example data set
+            var dataset = [ 5, 10, 15, 20, 25 ];
+            
+            var w = 500; // svg width variable
+            var h = 50; // svg height variable
+            
+            // This variable is a pointer/reference to our svg objects
+            var svg = d3.select("Body").append("svg");
+            svg.attr("width", w)
+            svg.attr("height", h);
+            
+            // Create the svg circles using our reference "svg"
+            // and assign the collective to the variable "circles"
+            var circles = svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle");
+            
+            // Note:  i is an index looped via "enter()"
+            circles.attr("cx", function(d,i) {
+                return (i*50) + 25;
+            })
+            .attr("cy", h/2)
+            .attr("r", function(d) {
+                return d;
+            });
+            
+        </script>
+
+        <svg width="500" height="500">
+            <circle cx="100", cy="100", r="50" opacity="0.5"/>
+        </svg>
+
+    </body>
+</html> 

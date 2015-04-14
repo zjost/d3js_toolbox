@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="./d3/d3.js"></script>
+        <style type = "text/css">
+            div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;   /* We'll override this later */
+            margin-right:  2px;
+            background-color: teal;
+            }   
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+                        
+            // Define the data
+            //var dataset = [ 5, 10, 15, 20, 25 ];
+            var dataset = []; // Initialize
+            for (var i=0; i<25; i++) {
+                var newNum = Math.random()*30;
+                dataset = dataset.concat(newNum);
+            }
+            
+            
+            d3.select("body")
+                // This selects all current and future div's
+                .selectAll("div")
+                // Tell d3 what my data is.  It will repeat 
+                // the lines after it for each data value
+                // for 5 pieces of data, the code will execute 5 times
+                .data(dataset)
+                // This creates a placeholder element
+                .enter()
+                // This assigns "div" to that element
+                .append("div")
+                // Set the div class to be "bar"
+                .attr("class", "bar")
+                // Now change a property within this class
+                .style("height", function(d) {
+                    var barheight = d*5
+                    return barheight + "px";
+                });                
+                        
+        </script>
+
+    </body>
+</html> 

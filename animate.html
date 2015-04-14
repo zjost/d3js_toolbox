@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="./d3/d3.js"></script>
+        
+        
+        <!-- ////////////////////////////////
+        /// Establish CSS class for "axis" 
+        ///////////////////////////////////// -->
+        <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+       
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+        </style>
+        
+        <!--////////////////////////////////
+        ////////////////////////////////////-->
+       
+    </head>
+    <body>
+    
+        <p>Click on this text to start the animation (once).</p> 
+        <script type="text/javascript">
+            
+            
+            var w = 1024; // svg width variable
+            var h = 800; // svg height variable
+            var padding = 30; // Padding
+            
+            var dataset = [];
+            for (i=0; i<50;i++){
+                var Num = Math.random()*100+padding;
+                dataset.push(Num); 
+            }
+            
+            /////////////////////////////////////////////////
+            // Create SVG
+            /////////////////////////////////////////////////
+            
+            // This variable is a pointer/reference to our svg objects
+            var svg = d3.select("Body").append("svg");
+            svg.attr("width", w)
+            svg.attr("height", h);
+            
+            // This is the background
+            var back = svg.append("rect")
+                .attr("x",0)
+                .attr("y",0)
+                .attr("width", w)
+                .attr("height", h)
+                .attr("fill-opacity", 0.25 )
+                .attr("fill","red");
+            
+            // Create the svg circles using our reference "svg"
+            // and assign the collective to the variable "circles"
+            var circles = svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle");
+            
+            // Note:  i is an index looped via "enter()"
+            circles.attr("cx", function(d,i) {
+                    return i*w/dataset.length - padding})
+                .attr("cy", h/2)
+                .attr("r", 5);
+            
+
+    
+                
+                d3.select("p")
+                    .on("click", function() {
+                        circles.transition()
+                        // Create a delay that depends on the index of the circle
+                        .delay(function(d,i) {
+                            return i*20; // 20ms delay between neighbors
+                        })
+                        // Duration of animation is 2000ms
+                        .duration(2000)
+                        // Move the y position to it's dataset value
+                        .attr("cy", function(d) {
+                            return h-d
+                        })
+                        
+                        // Now use .each() to start their next set of instructions
+                        
+                        .each("end", function() {
+                            // Move to somewhere else
+                            // Select current element
+                            d3.select(this)
+                            .transition()
+                            .delay(function(d,i) {
+                                return i*20; // 20ms delay between neighbors
+                            })
+                            .duration(3000)
+                            .attr("cy",function(d) {
+                                return h-4*d;
+                                });
+                            })
+                        });
+                
+        </script>
+
+    </body>
+</html> 
